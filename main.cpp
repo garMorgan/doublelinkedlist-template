@@ -9,6 +9,7 @@ int main()
 	
 	int input = 0;
 	int number = 0;
+	int newNumber = 0;
 	//DoubleLinkedList<int> test;
 	DoubleLinkedList<int>* list = new DoubleLinkedList<int>();
 	list->pushFront(1);
@@ -16,13 +17,13 @@ int main()
 	list->pushFront(3);
 	list->pushBack(4);
 	list->pushBack(6);
-	list->remove(2);
+	//list->remove(2);
 	//list->insertAhead(4,10);
 	
 	
 	list->printList();
 	std::cout << list->size() << std::endl;
-	/*
+	
 	do
 	{
 	printMenu();
@@ -31,39 +32,43 @@ int main()
 		{
 		case 1 : std::cout << "Input a value to add: ";
 		std::cin >> number;
-		test.pushFront(number);
+		list->pushFront(number);
 		std::cout << "Adding " << number << " to the list" << std::endl;
 		break;
 
 		case 2 : std::cout << "Input a value to add: ";
 		std::cin >> number;
-		test.pushBack(number);
+		list->pushBack(number);
 		std::cout << "Adding " << number << " to the list" << std::endl;
+		break;
+
+		case 4 : std::cout << "Give a value to insert: ";
+		std::cin >> number;
+		std::cout << "Pick a value to insert ahead of in list: ";
+		std::cin >> newNumber;
+		std::cout << "Attempting to insert " << number << " ahead of " << newNumber << std::endl;
+		break;
+
+		case 5 : std::cout << "Give a value to remove " << std::endl;
+		std::cout << "You gave ";
+		std::cin >> number;
+		list->remove(number);
+		std::cout << number << " removed from the list" << std::endl;
+		break;
+
+		case 6 : std::cout << "Printing list" << std::endl;
+		list->printList();
+		break;
+		
+		case 7 : std::cout << "Program ending..." << std::endl;
 		break;
 
 		default : std::cout << "Invalid choice" << std::endl;
 		}
 	
-	}while(number!=7);
-	*/
+	}while(input!=7);
 	
-
-
-
-	/*
-	Node<int>* test = new Node<int>();
-	test->setValue(5);
-	Node<int>* test2 = new Node<int>();
-	test2->setValue(8);
-	test2->setPrev(test);
-	Node<int>* test3 = test2;
-	while(test3!=nullptr)
-	{
-	cout << test3->getValue() << endl;
-	test3 = test3->getPrev();
-	}
-	*/
-	//printMenu();
+	
 	return 0;
 }
 

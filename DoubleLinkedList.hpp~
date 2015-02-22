@@ -96,6 +96,7 @@ void DoubleLinkedList<T>::remove(T value) throw(std::runtime_error)
 			tempBack = temp->getNext();
 			tempFront->setNext(tempBack);
 			tempBack->setPrev(tempFront);
+			m_size--;
 			break;
 			}
 			else
@@ -109,6 +110,7 @@ void DoubleLinkedList<T>::remove(T value) throw(std::runtime_error)
 			tempBack = temp->getNext();
 			tempFront->setNext(tempBack);
 			m_back=tempBack;
+			m_size--;
 			}
 			else
 			{
@@ -120,7 +122,7 @@ void DoubleLinkedList<T>::remove(T value) throw(std::runtime_error)
 	{
 	std::cout << e.what() << std::endl;
 	}
-	delete temp;
+	//delete temp;
 }
 template<typename T>
 void DoubleLinkedList<T>::insertAhead(T listValue, T newValue) throw(std::runtime_error)
