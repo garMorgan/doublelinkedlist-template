@@ -1,5 +1,6 @@
 #ifndef	DOUBLELINKEDLIST_H
 #define	DOUBLELINKEDLIST_H
+#include <iostream>
 #include "Node.h"
 #include <stdexcept>
 
@@ -65,7 +66,7 @@ class DoubleLinkedList
 	//A pointer that is that is always looking at the back (last) node
 	Node<T>* m_back;
 	//The current size of the list
-	int m_size = 0;
+	int m_size;
 };
 
 #include "DoubleLinkedList.hpp"

@@ -14,7 +14,7 @@ template<typename T>
 bool DoubleLinkedList<T>::isEmpty() const
 {
 	//std::cout << m_size << std::endl;
-	if(m_front==nullptr)
+	if(m_size==0)
 	{
 	return true;
 	}
@@ -26,7 +26,7 @@ bool DoubleLinkedList<T>::isEmpty() const
 template<typename T>
 int DoubleLinkedList<T>::size() const
 {
-	//return m_size;
+	return m_size;
 }
 template<typename T>
 void DoubleLinkedList<T>::pushFront(T value)
@@ -38,7 +38,7 @@ void DoubleLinkedList<T>::pushFront(T value)
 	temp->setValue(value);
 	m_back=temp;
 	m_front=temp;
-	//m_size++;
+	m_size++;
 	}
 	else
 	{
@@ -48,7 +48,7 @@ void DoubleLinkedList<T>::pushFront(T value)
 	m_front->setPrev(temp);
 	temp->setNext(m_front);
 	m_front=temp;
-	//m_size++;
+	m_size++;
 	}
 }
 template<typename T>
@@ -57,6 +57,7 @@ void DoubleLinkedList<T>::pushBack(T value)
 	if(isEmpty())
 	{
 	pushFront(value);
+	m_size++;
 	}
 	else
 	{
@@ -65,6 +66,7 @@ void DoubleLinkedList<T>::pushBack(T value)
 	m_back->setNext(temp);
 	temp->setPrev(m_back);
 	m_back=temp;
+	m_size++;
 	}
 }
 template<typename T>
@@ -83,6 +85,7 @@ void DoubleLinkedList<T>::remove(T value) throw(std::runtime_error)
 			if(temp==m_front)
 			{
 			m_front=m_front->getNext();
+			m_size--;
 			break;
 			}
 			
@@ -183,6 +186,7 @@ void DoubleLinkedList<T>::insertAhead(T listValue, T newValue) throw(std::runtim
 template<typename T>
 Node<T>* DoubleLinkedList<T>::find(T value) const
 {
+/*
 	Node<T>* temp = new Node<T>();
 	temp = m_front;
 		while(temp->getNext()!=nullptr)
@@ -210,7 +214,7 @@ Node<T>* DoubleLinkedList<T>::find(T value) const
 			{
 			return temp;
 			}
-		
+		*/
 }
 template<typename T>
 void DoubleLinkedList<T>::printList() const

@@ -6,15 +6,46 @@ void printMenu();
 
 int main()
 {
-	DoubleLinkedList<int>* list;
+	
+	int input = 0;
+	int number = 0;
+	//DoubleLinkedList<int> test;
+	DoubleLinkedList<int>* list = new DoubleLinkedList<int>();
 	list->pushFront(1);
 	list->pushFront(2);
 	list->pushFront(3);
 	list->pushBack(4);
 	list->pushBack(6);
-	list->insertAhead(4,10);
-	list->printList();
+	list->remove(2);
+	//list->insertAhead(4,10);
 	
+	
+	list->printList();
+	std::cout << list->size() << std::endl;
+	/*
+	do
+	{
+	printMenu();
+	std::cin >> input;	
+	switch(input)
+		{
+		case 1 : std::cout << "Input a value to add: ";
+		std::cin >> number;
+		test.pushFront(number);
+		std::cout << "Adding " << number << " to the list" << std::endl;
+		break;
+
+		case 2 : std::cout << "Input a value to add: ";
+		std::cin >> number;
+		test.pushBack(number);
+		std::cout << "Adding " << number << " to the list" << std::endl;
+		break;
+
+		default : std::cout << "Invalid choice" << std::endl;
+		}
+	
+	}while(number!=7);
+	*/
 	
 
 
