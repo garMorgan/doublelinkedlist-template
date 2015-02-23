@@ -8,12 +8,14 @@ DoubleLinkedList<T>::DoubleLinkedList()
 template<typename T>
 DoubleLinkedList<T>::~DoubleLinkedList()
 {
-
+	while(!isEmpty())
+	{
+	m_size--;
+	}
 }
 template<typename T>
 bool DoubleLinkedList<T>::isEmpty() const
 {
-	//std::cout << m_size << std::endl;
 	if(m_size==0)
 	{
 	return true;
@@ -33,7 +35,6 @@ void DoubleLinkedList<T>::pushFront(T value)
 {
 	if(isEmpty())
 	{
-	std::cout << "emotycheck" << std::endl;
 	Node<T>* temp = new Node<T>();
 	temp->setValue(value);
 	m_back=temp;
@@ -42,7 +43,6 @@ void DoubleLinkedList<T>::pushFront(T value)
 	}
 	else
 	{
-	std::cout << "pushfrontcheck" << std::endl;
 	Node<T>* temp = new Node<T>();
 	temp->setValue(value);
 	m_front->setPrev(temp);
@@ -66,119 +66,94 @@ void DoubleLinkedList<T>::pushBack(T value)
 	m_back->setNext(temp);
 	temp->setPrev(m_back);
 	m_back=temp;
+	m_back->setNext(nullptr);
 	m_size++;
 	}
 }
 template<typename T>
 void DoubleLinkedList<T>::remove(T value) throw(std::runtime_error)
 {
-	Node<T>* tempFront;
-	Node<T>* tempBack;
-	Node<T>* temp = new Node<T>();
-	temp = m_front;
+	Node<T>* tempNext;
+	Node<T>* tempPrev;
+	Node<T>* tempDelete = new Node<T>();
 	try
 	{
-		while(temp->getNext()!=nullptr)
-		{
-		if(temp->getValue()==value)
-		{
-			if(temp==m_front)
-			{
-			m_front=m_front->getNext();
-			m_size--;
-			break;
-			}
-			
-		}	
-		else if(temp->getValue()==value)
-			{
-			tempFront= temp->getPrev();
-			tempBack = temp->getNext();
-			tempFront->setNext(tempBack);
-			tempBack->setPrev(tempFront);
-			m_size--;
-			break;
-			}
-			else
-			{
-			temp=temp->getNext();
-			}
-		}
-			if(temp->getValue()==value)
-			{
-			tempFront= temp->getPrev();
-			tempBack = temp->getNext();
-			tempFront->setNext(tempBack);
-			m_back=tempBack;
-			m_size--;
-			}
-			else
-			{
-			throw;
-			}
-			
+	tempDelete=find(value);
+	if(tempDelete==m_front && tempDelete==m_back)
+	{
+	Node<T>* emptyList = new Node<T>();
+	m_back=emptyList;
+	m_front=emptyList;
+	delete tempDelete;
+	m_size--;
+	}		
+	else if(tempDelete==m_front)
+	{
+	tempPrev=m_front->getNext();
+	m_front=tempPrev;
+	tempPrev->setPrev(nullptr);
+	delete tempDelete;
+	m_size--;
+	}
+	else if(tempDelete==m_back)
+	{
+	tempNext=m_back->getPrev();
+	m_back=tempNext;
+	tempNext->setNext(nullptr);
+	delete tempDelete;
+	m_size--;
+	}
+	else if(tempDelete!=nullptr)
+	{
+	tempNext= tempDelete->getNext();
+	tempPrev= tempDelete->getPrev();
+	tempPrev->setNext(tempNext);
+	tempNext->setPrev(tempPrev);
+	m_size--;
+	delete tempDelete;	
+	}
+	else
+	{
+	throw;
+	}
 	}
 	catch(std::runtime_error& e)
 	{
 	std::cout << e.what() << std::endl;
 	}
-	delete temp;
+	
 }
 template<typename T>
 void DoubleLinkedList<T>::insertAhead(T listValue, T newValue) throw(std::runtime_error)
 {
+	Node<T>* tempFind;
 	Node<T>* tempNext;
 	Node<T>* tempPrev;
-	Node<T>* temp;
 	Node<T>* tempAdd = new Node<T>();
-	temp = m_front;
 	try
 	{
-		while(temp->getNext()!=nullptr)
-		{
-		if(temp->getValue()==listValue)
-		{
-			if(temp==m_front)
-			{
-			pushFront(newValue);
-			break;
-			}
-			
-		}	
-		else if(temp->getValue()==listValue)
-			{
-			std::cout << "boom" << std::endl;
-			tempNext= temp->getNext();
-			tempPrev = temp->getPrev();
-			tempAdd->setValue(newValue);
-			tempPrev->setNext(tempAdd);
-			temp->setPrev(tempAdd);
-			tempAdd->setPrev(tempPrev);
-			tempAdd->setNext(temp);
-			std::cout << "boom" << std::endl;
-			break;
-			}
-			else
-			{
-			std::cout << "change value" << std::endl;
-			temp=temp->getNext();
-			}
-		}
-			if(temp->getValue()==listValue)
-			{
-			tempNext= temp->getNext();
-			tempPrev = temp->getPrev();
-			tempAdd->setValue(newValue);
-			tempPrev->setNext(tempAdd);
-			temp->setPrev(tempAdd);
-			tempAdd->setPrev(tempPrev);
-			tempAdd->setNext(temp);
-			}
-			else
-			{
-			throw;
-			}
-			
+	tempFind=find(listValue);
+	
+	if(tempFind==m_front)
+	{
+		pushFront(newValue);
+	}
+	else if(tempFind!=nullptr)
+	{
+		tempAdd->setValue(newValue);
+		tempNext = tempFind;
+		tempPrev = tempFind->getPrev();
+		tempPrev->setNext(tempAdd);
+		tempFind->setPrev(tempAdd);
+		tempAdd->setPrev(tempPrev);
+		tempAdd->setNext(tempNext);
+		m_size++;
+	}
+	else
+	{
+	throw;
+	delete tempAdd;
+	}		
 	}
 	catch(std::runtime_error& e)
 	{
@@ -186,37 +161,67 @@ void DoubleLinkedList<T>::insertAhead(T listValue, T newValue) throw(std::runtim
 	}
 }
 template<typename T>
+void DoubleLinkedList<T>::insertBehind(T listValue, T newValue) throw(std::runtime_error)
+{
+	Node<T>* tempFind;
+	Node<T>* tempNext;
+	Node<T>* tempPrev;
+	Node<T>* tempAdd = new Node<T>();
+	tempFind = m_front;
+	try
+	{
+	tempFind=find(listValue);
+	
+	if(tempFind==m_back)
+	{
+		pushBack(newValue);
+	}
+	else if(tempFind!=nullptr)
+	{
+		tempAdd->setValue(newValue);
+		tempPrev = tempFind;
+		tempNext = tempFind->getNext();
+		tempNext->setPrev(tempAdd);
+		tempFind->setNext(tempAdd);
+		tempAdd->setPrev(tempPrev);
+		tempAdd->setNext(tempNext);
+		m_size++;
+	}
+	else
+	{
+	throw;
+	delete tempAdd;
+	}		
+	}
+	catch(std::runtime_error& e)
+	{
+	std::cout << e.what() << std::endl;
+	}
+}
+
+template<typename T>
 Node<T>* DoubleLinkedList<T>::find(T value) const
 {
-/*
-	Node<T>* temp = new Node<T>();
-	temp = m_front;
-		while(temp->getNext()!=nullptr)
+	Node<T>* tempFind;
+	tempFind = m_front;
+	while(tempFind->getNext()!=nullptr)
+	{
+		if(tempFind->getValue()==value)
 		{
-		if(temp->getValue()==value)
-		{
-			if(temp==m_front)
-			{
-			return temp;
-			break;
-			}
-			
-		}	
-		else if(temp->getValue()==value)
-			{
-			return temp;
-			break;
-			}
-			else
-			{
-			temp=temp->getNext();
-			}
+			return tempFind;
 		}
-			if(temp->getValue()==value)
-			{
-			return temp;
-			}
-		*/
+	tempFind= tempFind->getNext();
+	}
+		if(tempFind->getValue()==value)
+		{
+			return tempFind;
+		}
+		else
+		{
+			return nullptr;
+		}
+		
+		
 }
 template<typename T>
 void DoubleLinkedList<T>::printList() const
@@ -231,7 +236,7 @@ void DoubleLinkedList<T>::printList() const
 	{
 	while(print->getNext()!=nullptr)
 		{
-		std::cout << print->getValue() << " ";
+		std::cout << print->getValue() << ",";
 		print = print->getNext();
 		}
 	std::cout << print->getValue() << std::endl;

@@ -10,19 +10,7 @@ int main()
 	int input = 0;
 	int number = 0;
 	int newNumber = 0;
-	//DoubleLinkedList<int> test;
 	DoubleLinkedList<int>* list = new DoubleLinkedList<int>();
-	list->pushFront(1);
-	list->pushFront(2);
-	list->pushFront(3);
-	list->pushBack(4);
-	list->pushBack(6);
-	//list->remove(2);
-	//list->insertAhead(4,10);
-	
-	
-	list->printList();
-	std::cout << list->size() << std::endl;
 	
 	do
 	{
@@ -42,16 +30,25 @@ int main()
 		std::cout << "Adding " << number << " to the list" << std::endl;
 		break;
 
-		case 4 : std::cout << "Give a value to insert: ";
-		std::cin >> number;
+		case 3 : std::cout << "Input a value to add: ";
+		std::cin>> newNumber;
 		std::cout << "Pick a value to insert ahead of in list: ";
-		std::cin >> newNumber;
-		std::cout << "Attempting to insert " << number << " ahead of " << newNumber << std::endl;
+		std::cin >> number;
+		std::cout << "Attempting to insert " << newNumber << " ahead of " << number << std::endl;
+		list->insertBehind(number, newNumber);
 		break;
 
-		case 5 : std::cout << "Give a value to remove " << std::endl;
-		std::cout << "You gave ";
+		case 4 : std::cout << "Give a value to insert: ";
+		std::cin >> newNumber;
+		std::cout << "Pick a value to insert ahead of in list: ";
 		std::cin >> number;
+		std::cout << "Attempting to insert " << newNumber << " ahead of " << number << std::endl;
+		list->insertAhead(number, newNumber);
+		break;
+
+		case 5 : std::cout << "Give a value to remove ";
+		std::cin >> number;
+		std::cout << "You gave " << std::endl;
 		list->remove(number);
 		std::cout << number << " removed from the list" << std::endl;
 		break;
