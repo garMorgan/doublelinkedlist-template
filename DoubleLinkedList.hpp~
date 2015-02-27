@@ -1,3 +1,9 @@
+/**
+*	@file : DoubleLinkedList.hpp
+*	@author :  Garion Morgan
+*	@date : 2015.02.25
+*	Purpose: creating a list using pointers with a front and a back
+*/
 template<typename T>
 DoubleLinkedList<T>::DoubleLinkedList()
 {
@@ -8,9 +14,10 @@ DoubleLinkedList<T>::DoubleLinkedList()
 template<typename T>
 DoubleLinkedList<T>::~DoubleLinkedList()
 {
+		
 	while(!isEmpty())
 	{
-	size--;
+	remove(m_front->getValue());
 	}
 }
 template<typename T>
@@ -57,7 +64,6 @@ void DoubleLinkedList<T>::pushBack(T value)
 	if(isEmpty())
 	{
 	pushFront(value);
-	m_size++;
 	}
 	else
 	{
@@ -75,13 +81,11 @@ void DoubleLinkedList<T>::remove(T value) throw(std::runtime_error)
 {
 	Node<T>* tempNext;
 	Node<T>* tempPrev;
-	Node<T>* tempDelete = new Node<T>();
-	try
-	{
+	Node<T>* tempDelete;
 	tempDelete=find(value);
 	if(tempDelete==m_front && tempDelete==m_back)
 	{
-	Node<T>* emptyList = new Node<T>();
+	Node<T>* emptyList;
 	m_back=emptyList;
 	m_front=emptyList;
 	delete tempDelete;
@@ -114,13 +118,9 @@ void DoubleLinkedList<T>::remove(T value) throw(std::runtime_error)
 	}
 	else
 	{
-	throw;
+	throw(std::runtime_error("Not in List"));
 	}
-	}
-	catch(std::runtime_error& e)
-	{
-	std::cout << e.what() << std::endl;
-	}
+	
 	
 }
 template<typename T>
@@ -130,8 +130,6 @@ void DoubleLinkedList<T>::insertAhead(T listValue, T newValue) throw(std::runtim
 	Node<T>* tempNext;
 	Node<T>* tempPrev;
 	Node<T>* tempAdd = new Node<T>();
-	try
-	{
 	tempFind=find(listValue);
 	
 	if(tempFind==m_front)
@@ -151,14 +149,9 @@ void DoubleLinkedList<T>::insertAhead(T listValue, T newValue) throw(std::runtim
 	}
 	else
 	{
-	throw;
+	throw(std::runtime_error("Not in List"));
 	delete tempAdd;
 	}		
-	}
-	catch(std::runtime_error& e)
-	{
-	std::cout << e.what() << std::endl;
-	}
 }
 template<typename T>
 void DoubleLinkedList<T>::insertBehind(T listValue, T newValue) throw(std::runtime_error)
@@ -168,8 +161,6 @@ void DoubleLinkedList<T>::insertBehind(T listValue, T newValue) throw(std::runti
 	Node<T>* tempPrev;
 	Node<T>* tempAdd = new Node<T>();
 	tempFind = m_front;
-	try
-	{
 	tempFind=find(listValue);
 	
 	if(tempFind==m_back)
@@ -189,14 +180,10 @@ void DoubleLinkedList<T>::insertBehind(T listValue, T newValue) throw(std::runti
 	}
 	else
 	{
-	throw;
+	throw(std::runtime_error("Not in List"));
 	delete tempAdd;
-	}		
 	}
-	catch(std::runtime_error& e)
-	{
-	std::cout << e.what() << std::endl;
-	}
+	delete tempAdd;	
 }
 
 template<typename T>

@@ -1,3 +1,10 @@
+/**
+*	@file : main.cpp
+*	@author :  Garion Morgan
+*	@date : 2015.02.25
+*	Purpose: to implement my dll program
+*/
+
 #include <iostream>
 #include "DoubleLinkedList.h"
 
@@ -32,10 +39,18 @@ int main()
 
 		case 3 : std::cout << "Input a value to add: ";
 		std::cin>> newNumber;
-		std::cout << "Pick a value to insert ahead of in list: ";
+		std::cout << "Pick a value to insert behind of in list: ";
 		std::cin >> number;
 		std::cout << "Attempting to insert " << newNumber << " ahead of " << number << std::endl;
+		try
+		{
 		list->insertBehind(number, newNumber);
+		std::cout << newNumber << " inserted behind " << number << std::endl;
+		}
+		catch(std::runtime_error& e)
+		{
+		std::cout << e.what() << std::endl;
+		}
 		break;
 
 		case 4 : std::cout << "Give a value to insert: ";
@@ -43,14 +58,28 @@ int main()
 		std::cout << "Pick a value to insert ahead of in list: ";
 		std::cin >> number;
 		std::cout << "Attempting to insert " << newNumber << " ahead of " << number << std::endl;
+		try
+		{
 		list->insertAhead(number, newNumber);
+		}
+		catch(std::runtime_error& e)
+		{
+		std::cout << e.what() << std::endl;
+		}
 		break;
 
 		case 5 : std::cout << "Give a value to remove ";
 		std::cin >> number;
-		std::cout << "You gave " << std::endl;
+		std::cout << "You gave " << number << std::endl;
+		try
+		{
 		list->remove(number);
 		std::cout << number << " removed from the list" << std::endl;
+		}
+		catch(std::runtime_error& e)
+		{
+		std::cout << e.what() << std::endl;
+		}
 		break;
 
 		case 6 : std::cout << "Printing list" << std::endl;
@@ -65,7 +94,7 @@ int main()
 	
 	}while(input!=7);
 	
-	
+	delete list;
 	return 0;
 }
 
